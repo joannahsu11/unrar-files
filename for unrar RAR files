@@ -1,0 +1,98 @@
+#Author: Joanna Hsu
+# The purpose for this program is to unrar RAR files
+
+# This program is to create a UI for users to select folders, files or enter text.
+# If a folder is selected, the program prints the RAR files in the folder
+
+
+import os
+from tkinter.filedialog import askopenfilename
+from tkinter.filedialog import askdirectory
+from tkinter import *
+from tkinter.ttk import *
+
+
+root = Tk()
+root.geometry('500x400')
+root.configure(bg='gray92')
+
+# This function will be used to open
+# file in read mode and only Python files
+# will be opened
+
+key_file_arr = []
+folderpath_arr = []
+rarfolder_arr = []
+pw_arr = []
+
+
+def rar_folder():
+    temp = askdirectory()
+    temp_arr = (os.listdir(temp))
+    temp_arr[0] = os.path.abspath(temp)
+    for r in temp_arr:
+        rarfolder_arr.append(r)
+    Label(root, text=os.path.abspath(temp)).place(x=350, y=10)
+
+
+def folder_to_save():
+    temp = askdirectory()
+    folderpath_arr.append(os.path.abspath(temp))
+    Label(root, text=os.path.abspath(temp)).place(x=350, y=88)
+
+
+def keys_file():
+    temp = askopenfilename()
+    key_file_arr.append(os.path.abspath(temp))
+    Label(root, text=str(os.path.abspath(temp))).place(x=400, y=170)
+
+
+def pw(en):
+    Label(root, text=" password confirmed ").place(x=350, y=250)
+    pw_arr.append(pw_entry.get())
+
+
+# folder with rar files
+Label(text="folder with rar files: ").place(x=10, y=10)
+Button(root, text='select folder', command=lambda: rar_folder()).place(x=200, y=8)
+Label(root, text="not selected").place(x=350, y=10)
+
+# folder to save all files
+Label(text="save all files to...").place(x=10, y=90)
+Button(root, text='select folder', command=lambda: folder_to_save()).place(x=200, y=88)
+Label(root, text="not selected").place(x=350, y=90)
+
+# api keys
+Label(text="txt file with api keys: ").place(x=10, y=170)
+Button(root, text=' select folder ', command=lambda: keys_file()).place(x=200, y=170)
+Label(root, text="not selected").place(x=350, y=170)
+
+# password
+Label(root, text="RAR files password: ").place(x=10, y=250)
+pw_entry = Entry(root, width=10)
+pw_entry.place(x=200, y=250)
+Label(root, text="please press enter").place(x=350, y=250)
+pw_entry.bind('<Return>', pw)
+
+go = Button(root, text="START! ", command=root.destroy)
+go.pack(side=BOTTOM)
+mainloop()
+rarfolder = []
+print('rarfolder:')
+for r in rarfolder_arr:
+    rarfolder.append(r)
+
+for i in range(1, len(rarfolder)):
+    rarfolder[i] = rarfolder[0] + '/' + rarfolder[i]
+    print(rarfolder[i])
+
+print('\nkey_file:')
+key_file = str(key_file_arr[0])
+print(key_file)
+print('\nfolderpath:')
+folderpath = str(folderpath_arr[0])
+print(folderpath)
+print('\npassword:')
+password = pw_arr[0]
+print(password)
+
